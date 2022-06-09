@@ -1,5 +1,3 @@
-import { string } from "yup";
-
 export interface ILoginThunk {
     email: string;
     password: string;
@@ -24,5 +22,5 @@ export interface IRefreshTokenResponse {
 
 export interface ILoginFormik {
     email: string;
-    passwowrd: string;
+    password: string;
 }

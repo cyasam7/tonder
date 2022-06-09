@@ -2,7 +2,7 @@ import { Fontisto } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import * as React from "react";
+import React, { useEffect } from "react";
 import { ColorSchemeName } from "react-native";
 
 import { RootStackParamList, RootTabParamList } from "../types";
@@ -14,18 +14,25 @@ import Home from "../screens/Home";
 import Matches from "../screens/Matches";
 import Login from "../screens/Login";
 
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Chat from "../screens/Chat";
 import Register from "../screens/Register";
 import { selectorAuthIsAuth } from "../dataflows/auth/LoginSelectors";
+import { useDispatch } from "react-redux";
+import { checkSession } from "../dataflows/auth/LoginThunks";
+import { deleteItem, getItem } from "../utils/localStorage";
+import Loading from "../screens/Loading";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(checkSession());
+    }, []);
+
     return (
-        <NavigationContainer
-            theme={
-                colorScheme === "dark" ? DarkTheme : DefaultTheme
-            } /* TODO: INVESTIGATE HOW TO MAKE A THEME*/
-        >
+        /* TODO: INVESTIGATE HOW TO MAKE A THEME */
+        <NavigationContainer theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
             <RootNavigator />
         </NavigationContainer>
     );
@@ -34,15 +41,9 @@ export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeNa
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
-    const isAuth = useAppSelector(selectorAuthIsAuth);
-
+    const { isAuth } = useAppSelector((state) => state.Auth);
     return (
-        <Stack.Navigator
-            screenOptions={{
-                headerShown: false,
-            }}
-            initialRouteName="Login"
-        >
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             {isAuth ? (
                 <>
                     <Stack.Screen

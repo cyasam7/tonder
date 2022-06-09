@@ -1,10 +1,9 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { store } from "../redux/store";
 import jwtDecode from "jwt-decode";
-import { AsyncStorageValues, getItem, IAsyncStorageTokens } from "./localStorage";
+import { AsyncStorageValues, deleteItem, getItem } from "./localStorage";
 
-export const instance = axios.create({
-    baseURL: "http://localhost:4000",
+const instance = axios.create({
+    baseURL: "http://192.168.0.29:4000",
     timeout: 10000,
     headers: {
         "Content-Type": "application/json",
@@ -19,13 +18,13 @@ export interface ITokens {
 const refreshTokens = async (data: ITokens): Promise<string> => {
     let newToken = data.token;
     if (!isValidToken(data.refreshToken)) return "";
-    if (!isValidToken(data.token)) newToken = await getNewToken(data.token);
+    if (!isValidToken(data.token)) newToken = await getNewToken(data.refreshToken);
     return newToken;
 };
 
 const isValidToken = (token: string): boolean => {
     const tokenDecoded = jwtDecode(token) as { exp: number; iat: number };
-    return Date.now() / 1000 > tokenDecoded.exp;
+    return Date.now() / 1000 < tokenDecoded.exp;
 };
 
 const getNewToken = async (token: string): Promise<string> => {
@@ -35,22 +34,24 @@ const getNewToken = async (token: string): Promise<string> => {
 
 const interceptorConfig = async (config: any): Promise<AxiosRequestConfig> => {
     const items = await getItem<AsyncStorageValues>("TOKENS");
-
     if (items && !config.url?.includes("refresh-token")) {
         const { refreshToken, token } = items;
-
-        const tokenVerified = refreshTokens({
+        const tokenVerified = await refreshTokens({
             refreshToken,
             token,
         });
-
         config.headers.Authorization = `Bearer ${tokenVerified}`;
     }
-
     return config;
 };
+const errorConfig = async (err: any): Promise<any> => {
+    if (err.response.status === 401) {
+        await deleteItem("TOKENS");
+    }
+    return err;
+};
 
-instance.interceptors.request.use(interceptorConfig);
+instance.interceptors.request.use(interceptorConfig, errorConfig);
 
 export async function Post<T>(url: string, data: any): Promise<AxiosResponse<T>> {
     return await instance.post(url, data);

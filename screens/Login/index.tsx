@@ -9,15 +9,25 @@ import { styles } from "./styles";
 import { HideKeyboardView } from "../../components/HideKeyboardView";
 import Animated from "react-native-reanimated";
 import useLoginAnimation from "../../hooks/animations/LoginAnimation";
-import { useDispatch } from "react-redux";
+import { ILoginFormik } from "../../dataflows/auth/IThunkTypes";
+import { schemaLogin } from "../../dataflows/auth/schemas";
+import { logIn } from "../../dataflows/auth/LoginThunks";
+import { useAppDispatch } from "../../redux/hooks";
 
 const Login = () => {
     const [stylesLoginAnimation, loginTextSharedValue, contentLoginStyles] = useLoginAnimation();
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const formik = useFormik({
-        va,
+    const formik = useFormik<ILoginFormik>({
+        validationSchema: schemaLogin,
+        initialValues: {
+            email: "cyasam7@gmail.com",
+            password: "Cyasam86&",
+        },
+        onSubmit: (values) => {
+            dispatch(logIn(values));
+        },
     });
 
     return (
@@ -37,15 +47,22 @@ const Login = () => {
                         >
                             <Input
                                 placeholder="Email"
+                                value={formik.values.email}
+                                onChangeText={formik.handleChange("email")}
                                 leftIcon={<AntDesign name="user" size={24} color="gray" />}
                             />
                             <Input
                                 placeholder="Password"
+                                value={formik.values.password}
                                 secureTextEntry
+                                onChangeText={formik.handleChange("password")}
                                 leftIcon={<AntDesign name="lock" size={24} color="gray" />}
                             />
                             {/* TODO: INTRODUCIR CHECKBOX */}
-                            <Button onPress={() => null} title={"Iniciar Sesion"} />
+                            <Button
+                                onPress={() => formik.handleSubmit()}
+                                title={"Iniciar Sesion"}
+                            />
                             <View style={{ margin: 5 }} />
                             <Text
                                 style={{

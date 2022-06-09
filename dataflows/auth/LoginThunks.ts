@@ -1,28 +1,29 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Get, instance } from "../../utils/axiosConfig";
-import { deleteItem, setObjectItem } from "../../utils/localStorage";
+import { Get, Post } from "../../utils/axiosConfig";
+import { deleteItem, getItem, setObjectItem } from "../../utils/localStorage";
 import { ILoginRespose, ILoginThunk, IUserBase } from "./IThunkTypes";
 
-export const logIn = createAsyncThunk(
-    "auth/logIn",
-    async ({ email, password }: ILoginThunk): Promise<ILoginRespose> => {
-        const resp = await instance.post("/auth/login", {
-            auth: {
-                username: email,
-                password,
-            },
-        });
-        const { refreshToken, token } = resp.data as ILoginRespose;
-        await setObjectItem("TOKENS", { refreshToken, token });
-        return resp.data;
-    }
-);
+export const logIn = createAsyncThunk("auth/logIn", async ({ email, password }: ILoginThunk) => {
+    const resp = await Post<ILoginRespose>("/auth/login", {
+        email,
+        password,
+    });
+    const { refreshToken, token } = resp.data;
 
-export const checkSession = createAsyncThunk("auth/check-session", async (): Promise<IUserBase> => {
-    const resp = await Get("/whoami");
-    return resp.data as IUserBase;
+    await setObjectItem("TOKENS", { refreshToken, token });
+    return resp.data;
 });
 
-export const logOut = createAsyncThunk("auth/logOut", async (): Promise<void> => {
-    deleteItem("TOKENS");
+export const checkSession = createAsyncThunk("auth/check-session", async () => {
+    try {
+        const resp = await Get("/auth/whoami");
+        return resp.data as IUserBase;
+    } catch (error) {
+        deleteItem("TOKENS");
+        throw new Error("error");
+    }
+});
+
+export const logOut = createAsyncThunk("auth/logOut", async () => {
+    await deleteItem("TOKENS");
 });

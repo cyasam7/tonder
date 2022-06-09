@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 import { Socket } from "socket.io-client";
 import io from "socket.io-client";
+import { AppState } from "react-native";
 
 export interface IContextSocket {
     socket: Socket | null;

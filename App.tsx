@@ -10,6 +10,8 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { SocketProvider } from "./hooks/useSocket";
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 export default function App() {
     const isLoadingComplete = useCachedResources();

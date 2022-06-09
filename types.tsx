@@ -15,6 +15,7 @@ declare global {
 
 export type RootStackParamList = {
     Root: NavigatorScreenParams<RootTabParamList> | undefined;
+    Loading: undefined;
     Chat: { chatId: string };
     Login: undefined;
     Register: undefined;
@@ -36,8 +37,3 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
     BottomTabScreenProps<RootTabParamList, Screen>,
     NativeStackScreenProps<RootStackParamList>
 >;
-
-export interface IRefreshTokenResponse {
-    refreshToken: string;
-    token: string;
-}
