@@ -8,11 +8,11 @@ const CarouselItem = (props: ICarouselItemProps) => {
         <View style={styles.card}>
             <Image
                 style={[StyleSheet.absoluteFillObject, styles.imageCard]}
-                source={{ uri: props.imgUrl }}
+                source={{ uri: props.user.photo }}
             />
             <View style={styles.bottomBoxCard}>
-                <Text style={styles.bottomName}>{props.title}</Text>
-                <Text style={styles.bottomDescription}>10 miles away</Text>
+                <Text style={styles.bottomName}>{props.user.name}</Text>
+                <Text style={styles.bottomDescription}>{props.user.phone}</Text>
             </View>
         </View>
     );

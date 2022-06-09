@@ -37,3 +37,24 @@ export default StyleSheet.create({
         height: "10%",
     },
 });
+
+export const overlayLaps = {
+    left: {
+        title: "Nope",
+        style: {
+            label: {
+                textAlign: "right",
+                color: "red",
+            },
+        },
+    },
+    right: {
+        title: "LIKE",
+        style: {
+            label: {
+                textAlign: "left",
+                color: "green",
+            },
+        },
+    },
+};

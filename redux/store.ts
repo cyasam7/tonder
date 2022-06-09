@@ -4,9 +4,11 @@ import persistReducer from "redux-persist/es/persistReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import persistStore from "redux-persist/es/persistStore";
 import { AuthReducer } from "../dataflows/auth/LoginSlice";
+import { MatchinReducer } from "../dataflows/matching/MatchingSlice";
 
 export const rootReducer = combineReducers({
     Auth: AuthReducer,
+    Matching: MatchinReducer,
 });
 
 export const persistedReducer = persistReducer(

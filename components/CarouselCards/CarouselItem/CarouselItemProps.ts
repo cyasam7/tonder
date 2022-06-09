@@ -1,5 +1,5 @@
+import { IUserBase } from "../../../dataflows/auth/IThunkTypes";
+
 export interface ICarouselItemProps {
-    title: string;
-    body: string;
-    imgUrl: string;
+    user: IUserBase;
 }
