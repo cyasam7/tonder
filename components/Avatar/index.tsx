@@ -14,7 +14,7 @@ const AvatarItem = () => {
                 size="medium"
             />
             <Badge
-                badgeStyle={{ backgroundColor: "#F65E7F" }}
+                badgeStyle={{ backgroundColor: "#FD0E42" }}
                 containerStyle={styles.badgeAvatar}
             />
             <Text style={styles.textAvatar}>Anita</Text>

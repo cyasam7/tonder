@@ -5,12 +5,13 @@ import useCachedResources from "./hooks/useCachedResources";
 import useColorScheme from "./hooks/useColorScheme";
 import Navigation from "./navigation";
 import { ThemeProvider } from "@rneui/themed";
-import { theme } from "./theme";
+import { theme, themePaper } from "./theme";
 import { Provider } from "react-redux";
 import { persistor, store } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { SocketProvider } from "./hooks/useSocket";
 import { LogBox } from "react-native";
+import { Provider as PaperProvider } from "react-native-paper";
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 export default function App() {
@@ -24,12 +25,14 @@ export default function App() {
             <Provider store={store}>
                 <SocketProvider>
                     <PersistGate loading={null} persistor={persistor}>
-                        <ThemeProvider theme={theme}>
-                            <SafeAreaProvider>
-                                <Navigation colorScheme={colorScheme} />
-                                <StatusBar />
-                            </SafeAreaProvider>
-                        </ThemeProvider>
+                        <PaperProvider theme={themePaper}>
+                            <ThemeProvider theme={theme}>
+                                <SafeAreaProvider>
+                                    <Navigation colorScheme={colorScheme} />
+                                    <StatusBar />
+                                </SafeAreaProvider>
+                            </ThemeProvider>
+                        </PaperProvider>
                     </PersistGate>
                 </SocketProvider>
             </Provider>

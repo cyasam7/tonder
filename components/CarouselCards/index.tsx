@@ -14,8 +14,9 @@ import MatchModal from "../MatchModal";
 import { openMatchModal } from "../../dataflows/matching/MatchingSlice";
 
 const Carousel = () => {
-    const { socket } = useSocket();
     const dispatch = useAppDispatch();
+    const refSwipper = useRef<any>();
+    const { socket } = useSocket();
     const user = useAppSelector(selectorAuthUser);
     const { users, isLoading } = useAppSelector(matchingSelector);
 
@@ -41,12 +42,22 @@ const Carousel = () => {
         }
     };
 
+    const handleSwipeLeft = () => {
+        refSwipper.current.swipeLeft();
+    };
+    const handleSwipeRight = () => {
+        refSwipper.current.swipeRight();
+    };
+    const handleFetchUsers = () => {
+        dispatch(listUsers(user?.id || ""));
+    };
     return (
         <View style={styles.container}>
             <Text style={styles.backgroundText}>Discover</Text>
             <View style={styles.swiperContainer}>
-                {isLoading ? null : (
+                {!isLoading && (
                     <Swiper
+                        ref={refSwipper}
                         cards={users}
                         overlayLabels={overlayLaps}
                         renderCard={(item) => <CarouselItem user={item} />}
@@ -61,7 +72,11 @@ const Carousel = () => {
                     />
                 )}
             </View>
-            <BottomOptions />
+            <BottomOptions
+                fetchUsers={handleFetchUsers}
+                SwipeLeft={handleSwipeLeft}
+                SwipeRight={handleSwipeRight}
+            />
             <MatchModal />
         </View>
     );

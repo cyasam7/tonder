@@ -11,7 +11,7 @@ export default StyleSheet.create({
         paddingRight: 10,
     },
     textMatches: {
-        color: "#EB5757",
+        color: "#FD0E42",
         fontSize: 21,
         fontWeight: "500",
         lineHeight: 29,

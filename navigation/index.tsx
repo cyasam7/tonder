@@ -1,5 +1,5 @@
 import { Fontisto } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React, { useEffect } from "react";
@@ -20,8 +20,7 @@ import Register from "../screens/Register";
 import { selectorAuthIsAuth } from "../dataflows/auth/LoginSelectors";
 import { useDispatch } from "react-redux";
 import { checkSession } from "../dataflows/auth/LoginThunks";
-import { deleteItem, getItem } from "../utils/localStorage";
-import Loading from "../screens/Loading";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function Navigation({ colorScheme }: { colorScheme: ColorSchemeName }) {
     const dispatch = useAppDispatch();
@@ -68,16 +67,14 @@ function RootNavigator() {
     );
 }
 
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
+const BottomTab = createMaterialBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator() {
     return (
         <BottomTab.Navigator
             initialRouteName="Home"
-            screenOptions={{
-                tabBarActiveTintColor: "#FD0E42",
-                headerShown: false,
-            }}
+            activeColor="#FD0E42"
+            barStyle={{ backgroundColor: "#fff" }}
         >
             <BottomTab.Screen
                 name="Home"
@@ -90,7 +87,9 @@ function BottomTabNavigator() {
                 name="Matches"
                 component={Matches}
                 options={{
-                    tabBarIcon: ({ color }) => <Fontisto name="hipchat" size={24} color={color} />,
+                    tabBarIcon: ({ color }) => (
+                        <MaterialCommunityIcons name="chat-processing" size={24} color={color} />
+                    ),
                 }}
             />
         </BottomTab.Navigator>

@@ -5,15 +5,13 @@ import { Avatar } from "react-native-paper";
 import { matchingSelector } from "../../dataflows/matching/IMatchingSelectos";
 import { closeMatchModal } from "../../dataflows/matching/MatchingSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { IMatchModalProps } from "./IMatchModalProps";
 
-const MatchModal: React.FC<IMatchModalProps> = () => {
+const MatchModal: React.FC = () => {
     const { showMatchModal, infoMatchModal } = useAppSelector(matchingSelector);
     const dispatch = useAppDispatch();
     const handleCloseModal = () => {
         dispatch(closeMatchModal());
     };
-    console.log(infoMatchModal);
     return (
         <Modal visible={showMatchModal} transparent animationType="slide">
             <View
