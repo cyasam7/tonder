@@ -1,11 +1,10 @@
 import { StyleSheet } from "react-native";
-import { height } from "../../constants/Layout";
-
-const heighOfContainerLogin = (height / 4) * 3;
+import { height, width } from "../../constants/Layout";
 
 export const styles = StyleSheet.create({
     screen: {
         flex: 1,
+        width: width,
     },
     mainContainer: { flex: 1, backgroundColor: "#FD0E42" },
     titleContainer: {

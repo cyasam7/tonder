@@ -1,23 +1,18 @@
 import { Avatar, Badge } from "@rneui/base";
 import React from "react";
 import { Text, View } from "react-native";
+import { IAvatarProps } from "./IAvatarProps";
 import styles from "./styles";
 
-const AvatarItem = () => {
+const AvatarItem: React.FC<IAvatarProps> = ({ user }) => {
     return (
         <View style={styles.container}>
-            <Avatar
-                rounded
-                source={{
-                    uri: "https://randomuser.me/api/portraits/men/41.jpg",
-                }}
-                size="medium"
-            />
+            <Avatar rounded source={{ uri: user.photo }} size="medium" />
             <Badge
                 badgeStyle={{ backgroundColor: "#FD0E42" }}
                 containerStyle={styles.badgeAvatar}
             />
-            <Text style={styles.textAvatar}>Anita</Text>
+            <Text style={styles.textAvatar}>{user.name}</Text>
         </View>
     );
 };

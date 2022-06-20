@@ -12,6 +12,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { SocketProvider } from "./hooks/useSocket";
 import { LogBox } from "react-native";
 import { Provider as PaperProvider } from "react-native-paper";
+
 LogBox.ignoreLogs(["EventEmitter.removeListener"]);
 
 export default function App() {
@@ -20,22 +21,21 @@ export default function App() {
 
     if (!isLoadingComplete) {
         return null;
-    } else {
-        return (
-            <Provider store={store}>
-                <SocketProvider>
-                    <PersistGate loading={null} persistor={persistor}>
-                        <PaperProvider theme={themePaper}>
-                            <ThemeProvider theme={theme}>
-                                <SafeAreaProvider>
-                                    <Navigation colorScheme={colorScheme} />
-                                    <StatusBar />
-                                </SafeAreaProvider>
-                            </ThemeProvider>
-                        </PaperProvider>
-                    </PersistGate>
-                </SocketProvider>
-            </Provider>
-        );
     }
+    return (
+        <Provider store={store}>
+            <SocketProvider>
+                <PersistGate loading={null} persistor={persistor}>
+                    <PaperProvider theme={themePaper}>
+                        <ThemeProvider theme={theme}>
+                            <SafeAreaProvider>
+                                <Navigation colorScheme={colorScheme} />
+                                <StatusBar />
+                            </SafeAreaProvider>
+                        </ThemeProvider>
+                    </PaperProvider>
+                </PersistGate>
+            </SocketProvider>
+        </Provider>
+    );
 }

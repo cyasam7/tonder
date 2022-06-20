@@ -8,7 +8,7 @@ export default StyleSheet.create({
         paddingTop: 0,
     },
     titleItem: {
-        color: "#4A4A4A",
+        color: "#4D4D4D",
         fontSize: 19,
         lineHeight: 26,
         fontWeight: "800",

@@ -1,14 +1,16 @@
-import { combineReducers, configureStore, createSlice } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE } from "redux-persist";
 import persistReducer from "redux-persist/es/persistReducer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import persistStore from "redux-persist/es/persistStore";
 import { AuthReducer } from "../dataflows/auth/LoginSlice";
 import { MatchinReducer } from "../dataflows/matching/MatchingSlice";
+import { chatReducer } from "../dataflows/chat/ChatSlice";
 
 export const rootReducer = combineReducers({
     Auth: AuthReducer,
     Matching: MatchinReducer,
+    Chats: chatReducer,
 });
 
 export const persistedReducer = persistReducer(
@@ -33,7 +35,5 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-
 export type RootState = ReturnType<typeof store.getState>;
-
 export type AppDispatch = typeof store.dispatch;

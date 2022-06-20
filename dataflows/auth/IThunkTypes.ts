@@ -16,6 +16,11 @@ export interface IUserBase {
     photo: string;
 }
 
+export interface IMatchBase {
+    id: string;
+    users: IUserBase[];
+}
+
 export interface IRefreshTokenResponse {
     refreshToken: string;
     token: string;
@@ -24,4 +29,12 @@ export interface IRefreshTokenResponse {
 export interface ILoginFormik {
     email: string;
     password: string;
+}
+export interface IRegisterFormik {
+    name: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    password: string;
+    confirmPassword: string;
 }

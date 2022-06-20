@@ -17,8 +17,6 @@ import Login from "../screens/Login";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import Chat from "../screens/Chat";
 import Register from "../screens/Register";
-import { selectorAuthIsAuth } from "../dataflows/auth/LoginSelectors";
-import { useDispatch } from "react-redux";
 import { checkSession } from "../dataflows/auth/LoginThunks";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUserBase } from "../auth/IThunkTypes";
+import { IMatchBase, IUserBase } from "../auth/IThunkTypes";
 import { IMatchingState } from "./IMatchingState";
 import { listUsers } from "./MatchingThunks";
 
@@ -14,7 +14,7 @@ export const slice = createSlice({
     name: "matching",
     initialState,
     reducers: {
-        openMatchModal: (state, action: PayloadAction<{ users: IUserBase[] }>) => {
+        openMatchModal: (state, action: PayloadAction<IMatchBase>) => {
             state.infoMatchModal = action.payload.users;
             state.showMatchModal = true;
         },

@@ -1,4 +1,4 @@
-import { IUserBase } from "../auth/IThunkTypes";
+import { IMatchBase, IUserBase } from "../auth/IThunkTypes";
 
 export interface IMatchingState {
     users: IUserBase[];

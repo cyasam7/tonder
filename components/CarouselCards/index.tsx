@@ -12,6 +12,8 @@ import { matchingSelector } from "../../dataflows/matching/IMatchingSelectos";
 import { useSocket } from "../../hooks/useSocket";
 import MatchModal from "../MatchModal";
 import { openMatchModal } from "../../dataflows/matching/MatchingSlice";
+import { AddMatch } from "../../dataflows/chat/ChatSlice";
+import { IMatchBase, IUserBase } from "../../dataflows/auth/IThunkTypes";
 
 const Carousel = () => {
     const dispatch = useAppDispatch();
@@ -22,23 +24,25 @@ const Carousel = () => {
 
     useEffect(() => {
         dispatch(listUsers(user?.id || ""));
-    }, []);
-
-    useEffect(() => {
-        socket?.on("swipe", (value) => {
-            if (value) dispatch(openMatchModal(value));
-        });
-    }, []);
+    }, [user]);
 
     const handleSendRequest = (index: number, request: boolean) => {
         if (user) {
             const { id: userRequesed } = users[index];
             const { id } = user;
-            socket?.emit("swipe", {
-                userRequesed,
-                user: id,
-                sent: request,
-            });
+            socket?.emit(
+                "swipe",
+                {
+                    userRequesed,
+                    user: id,
+                    sent: request,
+                },
+                (value: IMatchBase) => {
+                    const userMatched = value.users.find((u) => u.id !== user.id) as IUserBase;
+                    dispatch(openMatchModal(value));
+                    dispatch(AddMatch(userMatched));
+                }
+            );
         }
     };
 
@@ -51,6 +55,7 @@ const Carousel = () => {
     const handleFetchUsers = () => {
         dispatch(listUsers(user?.id || ""));
     };
+
     return (
         <View style={styles.container}>
             <Text style={styles.backgroundText}>Discover</Text>
