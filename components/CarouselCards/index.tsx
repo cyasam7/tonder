@@ -13,7 +13,7 @@ import { useSocket } from "../../hooks/useSocket";
 import MatchModal from "../MatchModal";
 import { openMatchModal } from "../../dataflows/matching/MatchingSlice";
 import { AddMatch } from "../../dataflows/chat/ChatSlice";
-import { IMatchBase, IUserBase } from "../../dataflows/auth/IThunkTypes";
+import { IMatchBase, IUserBase, IUserMatchedBase } from "../../dataflows/auth/IThunkTypes";
 
 const Carousel = () => {
     const dispatch = useAppDispatch();
@@ -38,7 +38,11 @@ const Carousel = () => {
                     sent: request,
                 },
                 (value: IMatchBase) => {
-                    const userMatched = value.users.find((u) => u.id !== user.id) as IUserBase;
+                    const user = value.users.find((u) => u.id !== user.id) as IUserBase;
+                    const userMatched: IUserMatchedBase = {
+                        id: value.id,
+                        user,
+                    };
                     dispatch(openMatchModal(value));
                     dispatch(AddMatch(userMatched));
                 }

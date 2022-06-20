@@ -11,7 +11,7 @@ const CarouselChat = ({ matches }: ICarouselChatProps) => {
             <FlatList
                 data={matches}
                 showsVerticalScrollIndicator={false}
-                renderItem={() => <Chat />}
+                renderItem={({ item }) => <Chat userMatched={item} />}
                 keyExtractor={(_, index) => index.toString()}
             />
         </View>

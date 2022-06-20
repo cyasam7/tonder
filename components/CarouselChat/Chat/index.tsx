@@ -3,29 +3,27 @@ import { Avatar, ListItem } from "@rneui/base";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
 import { useSocket } from "../../../hooks/useSocket";
+import { IChatProps } from "./IChatProps";
 
-const Chat = () => {
+const Chat: React.FC<IChatProps> = ({ userMatched }) => {
     const navigate = useNavigation();
     const { socket } = useSocket();
+
     const handleGoChat = () => {
+        socket?.emit("join", userMatched.user.id);
         navigate.navigate("Chat", {
-            chatId: "1",
+            chatId: userMatched.id,
         });
-        socket?.emit("join", "1");
-        console.log("entro a 1");
     };
 
     return (
         <ListItem containerStyle={styles.listItem} onPress={handleGoChat}>
-            <Avatar
-                rounded
-                size={"medium"}
-                title={"item.name[0]"}
-                source={{ uri: "https://randomuser.me/api/portraits/men/41.jpg" }}
-            />
+            <Avatar rounded size={"medium"} source={{ uri: userMatched.user.photo }} />
             <ListItem.Content>
-                <ListItem.Title style={styles.titleItem}>{"Alexander"}</ListItem.Title>
-                <ListItem.Subtitle style={styles.subtitleItem}>{"Alex"}</ListItem.Subtitle>
+                <ListItem.Title style={styles.titleItem}>{userMatched.user.name}</ListItem.Title>
+                <ListItem.Subtitle style={styles.subtitleItem}>
+                    {userMatched.user.phone}
+                </ListItem.Subtitle>
             </ListItem.Content>
             <ListItem.Chevron />
         </ListItem>

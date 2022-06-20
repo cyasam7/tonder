@@ -14,7 +14,7 @@ export const SocketProvider: FC = ({ children }) => {
     const [Socket, setSocket] = useState<Socket | null>(null);
 
     useEffect(() => {
-        const socket = io("http://192.168.0.29:81", { autoConnect: true });
+        const socket = io("http://192.168.0.30:81", { autoConnect: true });
         setSocket(socket);
         return () => {
             Socket?.disconnect();

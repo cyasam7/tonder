@@ -16,6 +16,11 @@ export interface IUserBase {
     photo: string;
 }
 
+export interface IUserMatchedBase {
+    id: string;
+    user: IUserBase;
+}
+
 export interface IMatchBase {
     id: string;
     users: IUserBase[];

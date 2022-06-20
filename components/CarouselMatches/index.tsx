@@ -12,7 +12,7 @@ const CarouselMatches = ({ matches }: ICarouselMatchesProps) => {
                 <View style={{ margin: 5 }}>
                     <FlatList
                         data={matches}
-                        renderItem={({ item }) => <AvatarItem user={item} />}
+                        renderItem={({ item }) => <AvatarItem match={item} />}
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         keyExtractor={(_, index) => index.toString()}

@@ -1,5 +1,5 @@
-import { IUserBase } from "../../dataflows/auth/IThunkTypes";
+import { IUserMatchedBase } from "../../dataflows/auth/IThunkTypes";
 
 export interface IAvatarProps {
-    user: IUserBase;
+    match: IUserMatchedBase;
 }

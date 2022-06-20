@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IUserBase } from "../auth/IThunkTypes";
-import { listMatches } from "./ChatThunks";
+import { IUserBase, IUserMatchedBase } from "../auth/IThunkTypes";
+import { listChats, listMatches } from "./ChatThunks";
 import { IChatState } from "./IChatState";
 
 const initialState: IChatState = {
@@ -14,7 +14,7 @@ const slice = createSlice({
     name: "chat",
     initialState,
     reducers: {
-        AddMatch: (state, action: PayloadAction<IUserBase>) => {
+        AddMatch: (state, action: PayloadAction<IUserMatchedBase>) => {
             state.matches = [...state.matches, action.payload];
         },
         CleanMatches: (state) => {
@@ -22,7 +22,7 @@ const slice = createSlice({
         },
     },
     extraReducers: {
-        [listMatches.fulfilled.type]: (state, action: PayloadAction<IUserBase[]>) => {
+        [listMatches.fulfilled.type]: (state, action: PayloadAction<IUserMatchedBase[]>) => {
             state.matches = action.payload;
             state.isLoading = false;
         },
@@ -32,8 +32,20 @@ const slice = createSlice({
         [listMatches.rejected.type]: (state, action: PayloadAction<string>) => {
             state.error = action.payload;
             state.isLoading = false;
-            state.chats = [];
             state.matches = [];
+        },
+        //List chats
+        [listChats.fulfilled.type]: (state, action: PayloadAction<IUserMatchedBase[]>) => {
+            state.chats = action.payload;
+            state.isLoading = false;
+        },
+        [listChats.pending.type]: (state) => {
+            state.isLoading = true;
+        },
+        [listChats.rejected.type]: (state, action: PayloadAction<string>) => {
+            state.error = action.payload;
+            state.isLoading = false;
+            state.chats = [];
         },
     },
 });

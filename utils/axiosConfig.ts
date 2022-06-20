@@ -3,7 +3,7 @@ import jwtDecode from "jwt-decode";
 import { AsyncStorageValues, deleteItem, getItem } from "./localStorage";
 
 const instance = axios.create({
-    baseURL: "http://192.168.0.29:4000",
+    baseURL: "http://192.168.0.30:4000",
     timeout: 10000,
     headers: {
         "Content-Type": "application/json",
