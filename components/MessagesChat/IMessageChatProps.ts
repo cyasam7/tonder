@@ -1,4 +1,6 @@
+import { IMessageBase } from "../../types";
+
 export interface IMessageChatProps {
-    message: string;
+    message: IMessageBase;
     isMine?: boolean;
 }

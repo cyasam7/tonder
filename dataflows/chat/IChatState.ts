@@ -1,3 +1,4 @@
+import { IMessageBase } from "../../types";
 import { IUserBase, IUserMatchedBase } from "../auth/IThunkTypes";
 
 export interface IChatState {
@@ -5,4 +6,5 @@ export interface IChatState {
     error: string | null;
     chats: any[];
     matches: IUserMatchedBase[];
+    message: IMessageBase[];
 }

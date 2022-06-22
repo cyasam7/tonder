@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, ScrollView, Text, View } from "react-native";
+import { FlatList, Text, View } from "react-native";
 import AvatarItem from "../Avatar";
 import { ICarouselMatchesProps } from "./CarouselMatchesProps";
 import styles from "./styles";
@@ -8,7 +8,7 @@ const CarouselMatches = ({ matches }: ICarouselMatchesProps) => {
     return (
         <View style={styles.matches}>
             <Text style={styles.textMatches}>New Matches</Text>
-            <ScrollView>
+            {matches.length > 0 ? (
                 <View style={{ margin: 5 }}>
                     <FlatList
                         data={matches}
@@ -18,7 +18,18 @@ const CarouselMatches = ({ matches }: ICarouselMatchesProps) => {
                         keyExtractor={(_, index) => index.toString()}
                     />
                 </View>
-            </ScrollView>
+            ) : (
+                <Text
+                    style={{
+                        textAlign: "center",
+                        backgroundColor: "white",
+                        paddingVertical: 20,
+                        borderRadius: 20,
+                    }}
+                >
+                    No hay matches
+                </Text>
+            )}
         </View>
     );
 };

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IMessageBase } from "../../types";
 import { IUserBase, IUserMatchedBase } from "../auth/IThunkTypes";
-import { listChats, listMatches } from "./ChatThunks";
+import { listChats, listMatches, listMessage } from "./ChatThunks";
 import { IChatState } from "./IChatState";
 
 const initialState: IChatState = {
@@ -8,6 +9,7 @@ const initialState: IChatState = {
     error: null,
     chats: [],
     matches: [],
+    message: [],
 };
 
 const slice = createSlice({
@@ -19,6 +21,13 @@ const slice = createSlice({
         },
         CleanMatches: (state) => {
             state.matches = [];
+        },
+        AddMessage: (state, action: PayloadAction<IMessageBase>) => {
+            console.log(action.payload);
+            state.message = [...state.message, action.payload];
+        },
+        ClearMessage: (state) => {
+            state.message = [];
         },
     },
     extraReducers: {
@@ -47,9 +56,12 @@ const slice = createSlice({
             state.isLoading = false;
             state.chats = [];
         },
+        [listMessage.fulfilled.type]: (state, action: PayloadAction<IMessageBase[]>) => {
+            state.message = action.payload;
+        },
     },
 });
 
-export const { AddMatch, CleanMatches } = slice.actions;
+export const { AddMatch, CleanMatches, AddMessage } = slice.actions;
 
 export const chatReducer = slice.reducer;

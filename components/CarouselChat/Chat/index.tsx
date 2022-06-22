@@ -2,15 +2,12 @@ import React from "react";
 import { Avatar, ListItem } from "@rneui/base";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
-import { useSocket } from "../../../hooks/useSocket";
 import { IChatProps } from "./IChatProps";
 
 const Chat: React.FC<IChatProps> = ({ userMatched }) => {
     const navigate = useNavigation();
-    const { socket } = useSocket();
 
     const handleGoChat = () => {
-        socket?.emit("join", userMatched.user.id);
         navigate.navigate("Chat", {
             chatId: userMatched.id,
         });
